@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway-nginx
+  namespace: artifactory
+  labels:
+    app: apigateway-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway-nginx
+  template:
+    metadata:
+      labels:
+        app: apigateway-nginx
+    spec:
+      containers:
+      - name: apigateway-nginx
+        image: apigateway-nginx:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 443
