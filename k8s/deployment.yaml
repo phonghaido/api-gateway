@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: apigateway-nginx
-        image: apigateway-nginx:latest
+        image: apigateway-nginx-image
         imagePullPolicy: Never
         ports:
         - containerPort: 443
