@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: apigateway-user-database
+  labels:
+    app: apigateway-user-database
+spec:
+  serviceName: apigateway-user-database
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apigateway-user-database
+  template:
+    metadata:
+      labels:
+        app: apigateway-user-database
+    spec:
+      securityContext:
+        fsGroup: 1001
+      containers:
+        - name: user-database
+          image: user-database-image
+          env:
+            - name: POSTGRESQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: user-database-secret
+                  key: POSTGRESQL_PASSWORD
+            - name: POSTGRESQL_VOLUME_DIR
+              value: /bitnami/postgresql
+            - name: PGDATA
+              value: /bitnami/postgresql/data
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          volumeMounts:
+            - mountPath: "/bitnami/postgresql"
+              name: data
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

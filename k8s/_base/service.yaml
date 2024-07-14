@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway
+  namespace: artifactory
+spec:
+  selector:
+    app: apigateway
+  ports:
+    - name: nginx
+      protocol: TCP
+      port: 443
+      targetPort: 443
+    - name: common-api
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: LoadBalancer

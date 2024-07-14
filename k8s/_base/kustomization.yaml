@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: artifactory
+
+images:
+  - name: nginx-image
+    newName: nginx
+    newTag: latest
+  - name: common-api-image
+    newName: common-api
+    newTag: latest
+  - name: user-database-image
+    newName: bitnami/postgresql
+    newTag: latest
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - statefulset-user-database.yaml
+  - service-user-database.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+commonLabels:
+  app: apigateway
+
+secretGenerator:
+  - name: user-database-secret
+    literals:
+      - POSTGRESQL_PASSWORD=""
