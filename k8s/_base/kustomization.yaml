@@ -7,8 +7,8 @@ images:
   - name: nginx-image
     newName: nginx
     newTag: latest
-  - name: common-api-image
-    newName: common-api
+  - name: internal-api-image
+    newName: internal-api
     newTag: latest
   - name: user-database-image
     newName: bitnami/postgresql
@@ -17,6 +17,7 @@ images:
 resources:
   - deployment.yaml
   - service.yaml
+  - service-internal-api.yaml
   - statefulset-user-database.yaml
   - service-user-database.yaml
 
